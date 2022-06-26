@@ -11,9 +11,9 @@ export const drawRectangle = (pos: Pos, a1: number, a2: number = 0) => {
   }
 
   robotjs.mouseToggle("down");
-  mouseRight(pos, a2);
-  mouseDown(pos, a1);
-  mouseLeft(pos, a2);
-  mouseUp(pos, a1);
+  mouseRight(pos, a1);
+  mouseDown(pos, a2);
+  mouseLeft(pos, a1);
+  mouseUp(pos, a2);
   robotjs.mouseToggle("up");
 };
