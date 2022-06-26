@@ -6,6 +6,7 @@ import { mouseUp } from "./services/mouseUp";
 import { mouseLeft } from "./services/mouseLeft";
 import { mouseDown } from "./services/mouseDown";
 import { drawRectangle } from "./services/drawRectangle";
+import { drawCircle } from "./services/drawCircle";
 
 const HTTP_PORT = 3000;
 
@@ -50,6 +51,9 @@ wss.on("connection", (ws) => {
         break;
       case "draw_rectangle":
         drawRectangle(pos, a1, a2);
+        break;
+      case "draw_circle":
+        drawCircle(pos, a1);
         break;
     }
 
