@@ -5,14 +5,16 @@
     },
     "target": "es6",
     "module": "CommonJS",
-    "rootDir": "./",
+    "rootDir": "./src",
     "moduleResolution": "node",
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "sourceMap": true,
     "esModuleInterop": true,
     "noPropertyAccessFromIndexSignature": false,
     "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "strict": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
@@ -23,5 +25,5 @@
     "strictPropertyInitialization": true,
     "useUnknownInCatchVariables": true
   },
-  "include": ["./**/**/*.ts"]
+  "include": ["./src/**/*.ts"]
 }
