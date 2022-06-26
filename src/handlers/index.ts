@@ -1,5 +1,5 @@
 import robot from "robotjs";
-import WebSocket from "ws";
+import { Duplex } from "stream";
 import { drawCircle } from "../services/drawCircle";
 import { drawRectangle } from "../services/drawRectangle";
 import { mouseDown } from "../services/mouseDown";
@@ -8,10 +8,8 @@ import { mouseRight } from "../services/mouseRight";
 import { mouseUp } from "../services/mouseUp";
 import { printScreen } from "../services/printScreen";
 
-export const wwsConnectionHandler = async (ws: WebSocket.WebSocket) => {
-  console.log("Connection accepted");
-
-  ws.on("message", async (data: Buffer) => {
+export const wwsConnectionHandler =
+  (wsStream: Duplex) => async (data: Buffer) => {
     const [cmd, ...coords] = data.toString().split(" ");
     const a1 = Number(coords[0]) || 0;
     const a2 = Number(coords[1]) || 0;
@@ -24,7 +22,7 @@ export const wwsConnectionHandler = async (ws: WebSocket.WebSocket) => {
 
     switch (cmd) {
       case "mouse_position":
-        ws.send(`mouse_position ${pos.x},${pos.y}`);
+        wsStream.write(`mouse_position ${pos.x},${pos.y}`);
         break;
       case "mouse_up":
         mouseUp(pos, a1);
@@ -49,14 +47,13 @@ export const wwsConnectionHandler = async (ws: WebSocket.WebSocket) => {
         break;
       case "prnt_scrn":
         const buffer = await printScreen();
-        ws.send(`prnt_scrn ${buffer.split(";base64,")[1] || ""}`);
+        wsStream.write(`prnt_scrn ${buffer.split(";base64,")[1] || ""}`);
         break;
     }
 
     if (cmd !== "mouse_position" && cmd !== "prnt_scrn") {
-      ws.send(cmd);
+      wsStream.write(cmd);
     }
 
     console.log(data.toString());
-  });
-};
+  };
